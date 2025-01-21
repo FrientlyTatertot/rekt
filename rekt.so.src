@@ -71,20 +71,24 @@ menu.handle_file = function(in_file)
     end for 
 
     if etc then 
+	files = []
         s = etc.get_files 
-        for f in s 
-            if f.name == "passwd" and f.has_permission("r") then 
-                print char(10)+"Found /etc/passwd"
-				print f.get_content
-            else    
-                print "/etc/passwd not found or read protected"
-            end if
-        end for
+	for f in s
+	    files.push(f.name)
+	end for
+	pass = files.indexOf("passwd")
+
+	if pass != null and s[pass].has_permission("r") then
+	    print char(10)+"Found /etc/passwd"
+	    print f.get_content
+	else
+	    print ("/etc/paswd not found or read protected")
+        end if
     else 
         print "Warning: /etc not found"
     end if
 
-	if home then 
+    if home then 
         users = home.get_folders 
 
         for user in users
